@@ -1,26 +1,91 @@
+@config "../tailwind.config.ts";
 @import "tailwindcss";
+@source "./app/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./components/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./lib/**/*.{js,ts,jsx,tsx,mdx}";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-dark: #2c3531;
+  --brand-teal: #116466;
+  --brand-sand: #d9b08c;
+  --brand-peach: #ffcb9a;
+  --brand-ice: #d1e8e2;
+  color-scheme: light;
+  --text-primary: #0f172a;
+  --text-muted: #475569;
+  --surface: rgba(15, 23, 42, 0.04);
+  --surface-strong: rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(15, 23, 42, 0.12);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --nav-border: rgba(15, 23, 42, 0.12);
+  --nav-text: #0f172a;
+  --nav-muted: rgba(15, 23, 42, 0.7);
+  --nav-icon-bg: rgba(255, 255, 255, 0.7);
+  --app-bg:
+    radial-gradient(1000px 700px at 15% 10%, rgba(17, 100, 102, 0.18), transparent 65%),
+    radial-gradient(900px 600px at 85% 25%, rgba(255, 203, 154, 0.25), transparent 60%),
+    linear-gradient(180deg, #f7f8f9 0%, #f1f4f6 55%, #eef2f5 100%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text-primary: var(--brand-ice);
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --surface: rgba(11, 17, 17, 0.85);
+  --surface-strong: rgba(18, 26, 26, 0.75);
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --nav-bg: #0b1111;
+  --nav-border: rgba(255, 255, 255, 0.12);
+  --nav-text: #d1e8e2;
+  --nav-muted: rgba(255, 255, 255, 0.8);
+  --nav-icon-bg: rgba(15, 23, 42, 0.7);
+  --app-bg:
+    radial-gradient(1100px 650px at 22% 10%, rgba(17, 100, 102, 0.25), transparent 60%),
+    radial-gradient(900px 600px at 82% 22%, rgba(255, 203, 154, 0.12), transparent 55%),
+    linear-gradient(180deg, #0b1010 0%, #0d1413 55%, #0a0f0f 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+html, body {
+  min-height: 100%;
+  scroll-padding-top: 100px;
+}
+
+html {
+  background: var(--app-bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--app-bg);
+  color: var(--text-primary);
+
+  /* classic modern sans */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.5;
+}
+/* Remove default link underline + blue look */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Make selection feel premium */
+::selection {
+  background: rgba(17, 100, 102, 0.35);
+}
+
+/* A reusable “glass” utility class (optional) */
+.glass {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
 }
