@@ -1,45 +1,59 @@
-import Link from "next/link";
-import { Card } from "@/components/ui/Card";
+// app/workspace/[workspaceId]/page.tsx
+import { use } from "react";
+import WorkspaceOverview from "@/components/workspace/WorkspaceOverview";
 
-export default async function WorkspacePage({
-  params,
-}: {
+type PageProps = {
   params: Promise<{ workspaceId: string }>;
-}) {
-  const { workspaceId } = await params;
+};
+
+const mockMembers = [
+  { id: "m1", name: "Alice" },
+  { id: "m2", name: "Bob" },
+  { id: "m3", name: "Charlie" },
+];
+
+const mockReports = [
+  {
+    id: "r1",
+    name: "Q1 Sales Report",
+    memberId: "m1",
+    status: "Completed",
+    uploadedAt: "2025-11-01T10:00:00Z",
+  },
+  {
+    id: "r2",
+    name: "Q2 Sales Draft",
+    memberId: "m2",
+    status: "In Progress",
+    uploadedAt: "2025-11-05T12:30:00Z",
+  },
+  {
+    id: "r3",
+    name: "Compliance Checklist",
+    memberId: "m3",
+    status: "Pending Review",
+    uploadedAt: "2025-11-10T09:15:00Z",
+  },
+];
+
+const mockStats = {
+  totalReports: mockReports.length,
+  completed: 1,
+  inProgress: 1,
+  pendingReview: 1,
+  lastUploadAt: "2025-11-10T09:15:00Z",
+};
+
+export default function WorkspacePage(props: PageProps) {
+  const { params } = props;
+  const { workspaceId } = use(params);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <Card className="p-6">
-        <div className="text-lg font-semibold">Quick Actions</div>
-        <div className="mt-4 space-y-2 text-sm text-slate-600 dark:text-white/70">
-          <Link
-            className="block transition hover:text-slate-900 dark:hover:text-white"
-            href={`/workspace/${workspaceId}/upload`}
-          >
-            ƒ+' Go to Upload
-          </Link>
-          <Link
-            className="block transition hover:text-slate-900 dark:hover:text-white"
-            href={`/workspace/${workspaceId}/extract`}
-          >
-            ƒ+' Go to Extract
-          </Link>
-          <Link
-            className="block transition hover:text-slate-900 dark:hover:text-white"
-            href={`/workspace/${workspaceId}/records`}
-          >
-            ƒ+' View Records
-          </Link>
-        </div>
-      </Card>
-
-      <Card className="p-6">
-        <div className="text-lg font-semibold">Status</div>
-        <p className="mt-2 text-sm text-slate-600 dark:text-white/70">
-          You can later show job progress here (queued uploads, extraction complete, validation pending).
-        </p>
-      </Card>
-    </div>
+    <WorkspaceOverview
+      workspaceId={workspaceId}
+      initialReports={mockReports}
+      members={mockMembers}
+      stats={mockStats}
+    />
   );
 }

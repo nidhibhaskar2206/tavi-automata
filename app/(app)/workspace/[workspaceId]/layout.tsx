@@ -1,47 +1,55 @@
+// app/workspace/[workspaceId]/layout.tsx
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { use } from "react";
 
-export default async function WorkspaceLayout({
-  children,
-  params,
-}: {
+type LayoutProps = {
   children: ReactNode;
   params: Promise<{ workspaceId: string }>;
-}) {
-  const { workspaceId } = await params;
+};
 
-  const tabs = [
-    { label: "Overview", href: `/workspace/${workspaceId}` },
-    { label: "Records", href: `/workspace/${workspaceId}/records` },
-    { label: "Upload", href: `/workspace/${workspaceId}/upload` },
-    { label: "Extract", href: `/workspace/${workspaceId}/extract` },
-    { label: "Excel Ops", href: `/workspace/${workspaceId}/excel-operations` },
-  ];
+const tabsFor = (workspaceId: string) => [
+  { label: "Overview", href: `/workspace/${workspaceId}` },
+  { label: "Records", href: `/workspace/${workspaceId}/records` },
+  { label: "Upload", href: `/workspace/${workspaceId}/upload` },
+  { label: "Extract", href: `/workspace/${workspaceId}/extract` },
+  { label: "Excel Ops", href: `/workspace/${workspaceId}/excel-operations` },
+];
+
+export default function WorkspaceLayout(props: LayoutProps) {
+  const { children, params } = props;
+  const { workspaceId } = use(params);
+
+  const tabs = tabsFor(workspaceId);
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-2xl font-semibold">
-          Workspace: <span className="text-brand-peach">{workspaceId}</span>
-        </h2>
-        <p className="text-sm text-slate-600 dark:text-white/60">
-          Move through Upload ƒ+' Extract ƒ+' Verify ƒ+' Save.
-        </p>
-      </div>
+    <div className="flex min-h-screen flex-col bg-[var(--brand-dark)] text-[var(--brand-ice)]">
+      <header className="border-b border-[var(--brand-ice)]/10 px-8 py-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg font-semibold">Workspace #{workspaceId}</h1>
+          <p className="text-xs text-[var(--brand-ice)]/70">
+            Move through Upload → Extract → Verify → Save
+          </p>
+        </div>
 
-      <div className="flex flex-wrap gap-2">
-        {tabs.map((t) => (
-          <Link
-            key={t.href}
-            href={t.href}
-            className="rounded-xl border border-slate-900/10 bg-slate-900/5 px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-900/10 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white"
-          >
-            {t.label}
-          </Link>
-        ))}
-      </div>
+        <nav className="mt-4 flex gap-2">
+          {tabs.map((tab) => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={
+                "rounded-full px-4 py-2 text-sm transition-colors " +
+                "border border-transparent text-[var(--brand-ice)]/80 " +
+                "hover:border-[var(--brand-teal)] hover:text-[var(--brand-ice)]"
+              }
+            >
+              {tab.label}
+            </Link>
+          ))}
+        </nav>
+      </header>
 
-      <div>{children}</div>
+      <main className="flex-1 px-8 py-6">{children}</main>
     </div>
   );
 }

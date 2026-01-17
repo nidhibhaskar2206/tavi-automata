@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/Button";
-import { DashboardHeader } from "./components/DashboardHeader";
-import { StatsGrid } from "./components/StatsGrid";
-import { ProjectList } from "./components/ProjectList";
-import { ProjectProgress } from "./components/ProjectProgress";
-import { TeamCollaboration } from "./components/TeamCollaboration";
+import { DashboardHeader } from "../../../components/dashboard/DashboardHeader";
+import { StatsGrid } from "../../../components/dashboard/StatsGrid";
+import { ProjectList } from "../../../components/dashboard/ProjectList";
+import { ProjectProgress } from "../../../components/dashboard/ProjectProgress";
+import { TeamCollaboration } from "../../../components/dashboard/TeamCollaboration";
 
 const stats = [
   {
